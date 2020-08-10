@@ -20,10 +20,33 @@ var fight = function(enemyName) {
     // Alert users that they are starting the round
     //checking if the user wants to fight
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-    console.log(promptFight);
 
-    //If the player chooses to fight, then fight
-    if (promptFight === "FIGHT" || promptFight === "fight" || promptFight === "Fight") {
+
+    while (enemyHealth > 0 && playerHealth > 0) {
+
+        if (promptFight === "skip" || promptFight === "Skip" || promptFight === "SKIP") {
+            window.alert(playerName + " has chosen to skip the fight!");
+            var skipCost = 10;
+            //confirm the user would like to skip.
+            var confirmSkip = window.confirm("Are you sure you'd like to quit? Cost: " + skipCost + " coins. You have " + playerMoney + " coins.");
+
+            // if yes/true and they have enough coins, leaves the fight
+            if (confirmSkip && playerMoney >= skipCost) {
+                window.alert (playerName + " has decided to skip this fight. Goodbye!");
+                //subtract money from playerMoney for skipping
+                playerMoney = playerMoney - skipCost;
+                break;
+                //check if user has enough money to skip
+            } else if (confirmSkip && playerMoney < skipCost) {
+                // alert them that they need more money
+                window.alert("You do not have enough coins to skip this round! Try again!");
+                fight(enemyName);
+                // if no, fight continues.
+            } else {
+                fight(enemyName);
+            }
+        } 
+        //If the player chooses to fight, then fight
         //Subtract the value of 'playerAttack' from the value of 'enemyHealth' and that  result to update the value in the 'enemyHealth' variable.
         enemyHealth = enemyHealth - playerAttack;
         //Log a resulting message to the console so we know that it worked.
@@ -35,6 +58,8 @@ var fight = function(enemyName) {
         if (enemyHealth <= 0) {
             enemyHealth = 0;
             window.alert(enemyName + " has died!");
+            playerMoney = playerMoney + 20;
+            break;
         }
         else {
             window.alert(enemyName + " still has " + enemyHealth + " health left.");
@@ -49,40 +74,18 @@ var fight = function(enemyName) {
         if (playerHealth <= 0) {
             playerHealth = 0;
             window.alert(playerName + " has died!");
+            break;
         }
         else {
             window.alert(playerName + " still has " + playerHealth + " health left.");
         }
-        // if player choses to skip
-    } else if (promptFight === "skip" || promptFight === "Skip" || promptFight === "SKIP") {
-        window.alert(playerName + " has chosen to skip the fight!");
-        //confirm the user would like to skip.
-        var confirmSkip = window.confirm("Are you sure you'd like to quit? Cost: 2 coins. You have " + playerMoney + " coins.");
-
-        // if yes/true and they have enough coins, leaves the fight
-        if (confirmSkip && playerMoney >= 2) {
-            window.alert (playerName + " has decided to skip this fight. Goodbye!");
-            //subtract money from playerMoney for skipping
-            playerMoney = playerMoney - 2;
-
-            //check if user has enough money to skip
-        } else if (confirmSkip && playerMoney < 2) {
-            // alert them that they need more money
-            window.alert("You do not have enough coins to skip this round! Try again!");
-            fight();
-
-            // if no, fight continues.
-        } else {
-            fight();
-        }
-    } else {
-        window.alert("You need to pick a valid option. Try again!");
-        fight();
     }
 };
 
 for (i = 0; i < enemyNames.length; i++) {
     var currentRound = i + 1;
+    //resets enemy health before each fight
+    enemyHealth = 50;
     window.alert("welcome to Robot Gladiators! Round " + currentRound); 
     fight(enemyNames[i]);
 }
