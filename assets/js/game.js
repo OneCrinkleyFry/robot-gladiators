@@ -119,6 +119,13 @@ var startGame = function() {
             //resets enemy health before each fight
             enemyHealth = 50;
             fight(pickedEnemyName);
+            if (i < enemyNames.length - 1 && playerHealth > 0) {
+                var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+
+                if (storeConfirm){
+                    shop();
+                }
+            }
             
         } else {
             window.alert("You have lost your robot in battle! Game Over!");
@@ -147,6 +154,52 @@ var endGame = function () {
         playerHealth = 100;
         playerMoney = 10;
         playerAttack = 10;
+    }
+}
+
+var shop = function () {
+
+    var healthUpCost = 7;
+    var healthUpAmmount = 20;
+    var attackUpCost = 7;
+    var attackUpAmmount = 2;
+
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+    );
+
+    switch(shopOptionPrompt) {
+        case "Refill":
+        case "refill":
+        case "REFILL":
+            if (playerMoney >= healthUpCost){
+                window.alert("Refilling player's health by " + healthUpAmmount + " for " + healthUpCost + " coins.");
+                playerHealth = playerHealth + healthUpAmmount;
+                playerMoney = playerMoney - healthUpCost;
+                
+            }else {
+                window.alert("You don't have enough money");
+            }
+            break;
+        case "upgrade":
+        case "Upgrade":
+        case "UPGRADE":
+            if (playerMoney >= attackUpCost) {
+                window.alert("Upgrading player's attack by " + attackUpAmmount + " for " + attackUpCost + " coins.");
+                playerAttack = playerAttack + attackUpAmmount;
+                playerMoney = playerMoney - attackUpCost;
+            }
+            break;
+        case "leave":
+        case "Leave":
+        case "LEAVE":
+            window.alert("Leaving the store.");
+
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            shop();
+            break;
     }
 }
 
