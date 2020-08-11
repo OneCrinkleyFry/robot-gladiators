@@ -18,6 +18,23 @@
 
 /// if else or leave then exit shop
 
+var fightOrSkip = function() {
+    var promptFight = window.prompt("would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.")
+
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again.")
+        return fightOrSkip();
+    }
+
+    if (promptFight === "skip" || promptFight === "SKIP") {
+        var confirmSkip = window.confirm("Are you sure you'd like to quit? Cost: 10 coins.");
+        if (confirmSkip && playerInfo.money >= 10) {
+            window.alert(playerInfo.name + " has decided to skip this fight.  Goodbye!");
+            playerInfo.money -= 10;
+            shop();
+        }
+    }
+}
 
 
 //fight function
@@ -29,31 +46,7 @@ var fight = function(enemy) {
 
     while (enemy.health > 0 && playerInfo.health > 0) {
 
-        if (promptFight === "skip" || promptFight === "Skip" || promptFight === "SKIP") {
-            window.alert(playerInfo.name + " has chosen to skip the fight!");
-            var skipCost = 10;
-            //confirm the user would like to skip.
-            var confirmSkip = window.confirm("Are you sure you'd like to quit? Cost: " + skipCost + " coins. You have " + playerInfo.money + " coins.");
-
-            // if yes/true and they have enough coins, leaves the fight
-            if (confirmSkip && playerInfo.money >= skipCost) {
-                window.alert (playerInfo.name + " has decided to skip this fight. Goodbye!");
-                //subtract money from playerInfo.money for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - skipCost);
-                //call a function to the shop.
-
-
-                break;
-                //check if user has enough money to skip
-            } else if (confirmSkip && playerInfo.money < skipCost) {
-                // alert them that they need more money
-                window.alert("You do not have enough coins to skip this round! Try again!");
-                fight(enemy.name);
-                // if no, fight continues.
-            } else {
-                fight(enemy.name);
-            }
-        } 
+        fightOrSkip();
 
         var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
         //If the player chooses to fight, then fight
