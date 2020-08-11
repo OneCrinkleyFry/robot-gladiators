@@ -102,6 +102,7 @@ var startGame = function() {
     for (i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0){
             window.alert("welcome to Robot Gladiators! Round " + (i + 1)); 
+
             var pickedEnemyObj = enemyInfo[i];
 
 
@@ -189,8 +190,18 @@ var randomNumber = function (min, max) {
     return value;
 }
 
+var getPlayerName = function() {
+    var name = "";
+
+    while (name === "" || name === null) {
+        name = window.prompt("What is your robot's name?");
+    }
+    console.log("You're robot's name is " + name);
+    return name;
+}
+
 var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -214,10 +225,11 @@ var playerInfo = {
             window.alert("Upgrading player's attack by 6 for 7 dollars.");
             this.attack += 2;
             this.money -= 7;
-    } else {
-        window.alert("You don't have enough money!");
+        } else {
+            window.alert("You don't have enough money!");
+        }
     }
-};
+}
 
 var enemyInfo = [
     {
