@@ -129,7 +129,7 @@ var startGame = function() {
     //resetting the player health
     playerInfo.reset();
 
-    // loop to get you to fight the robots until you or they are dead.
+    //loop to get you to fight the robots until you or they are dead.
     for (i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0){
             window.alert("welcome to Robot Gladiators! Round " + (i + 1)); 
@@ -162,6 +162,25 @@ var startGame = function() {
 var endGame = function () {
     window.alert("The game has now ended. Let's see how you did!");
 
+    // Retrieve the current high score from localStorage
+    var highscoreOwner = localStorage.getItem("name");
+    var highScore = localStorage.getItem("score");
+    console.log(highScore);
+    // Compare the player robot score with the current high score
+        // If the current high score is higher
+    if (highScore === null) {
+
+        highScore = 0;
+
+    } else if (playerInfo.money > highScore) {
+        localStorage.setItem("name", playerInfo.name);
+        localStorage.setItem("score", playerInfo.money);
+        window.alert("You beat the high score! the new high score is " + playerInfo.money + "!");
+
+    }else {
+        window.alert("You did not beat " + highscoreOwner + "'s high score of " + highScore + ".");
+    }
+
     if (playerInfo.health > 0) {
         window.alert("Great job, you've survived the game! You now have " + playerInfo.money + " coins.");
     }
@@ -183,8 +202,6 @@ var endGame = function () {
 
 //shop function
 var shop = function () {
-
-    
 
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
