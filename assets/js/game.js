@@ -20,7 +20,6 @@
 
 var fightOrSkip = function() {
 
-    debugger;
     var promptFight = window.prompt("would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.")
     promptFight = promptFight.toLowerCase();
 
@@ -46,45 +45,81 @@ var fightOrSkip = function() {
 //fight function
 var fight = function(enemy) {
     // Alert users that they are starting the round
-debugger;
-    while (enemy.health > 0 && playerInfo.health > 0) {
+    var isPlayerTurn = true;
 
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
+    console.log(isPlayerTurn);
+
+    while (enemy.health > 0 && playerInfo.health > 0) {
         if (fightOrSkip()){
             
             break;
         }
-        var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
-        //If the player chooses to fight, then fight
-        //Subtract the value of 'playerInfo.attack' from the value of 'enemy.health' and that  result to update the value in the 'enemy.health' variable.
-        enemy.health = Math.max(0, enemy.health-damage);
-        //Log a resulting message to the console so we know that it worked.
-        console.log(
-            playerInfo.name + " attacked " + enemy.name + " for " + damage + ". " + enemy.name + " now has " + enemy.health + " health remaining."
-        );
-        //check enemy's health
-        if (enemy.health <= 0) {
-            window.alert(enemy.name + " has died!");
-            playerInfo.money = playerInfo.money + 20;
-            break;
+        if (isPlayerTurn) {
+            var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
+            //If the player chooses to fight, then fight
+            //Subtract the value of 'playerInfo.attack' from the value of 'enemy.health' and that  result to update the value in the 'enemy.health' variable.
+            enemy.health = Math.max(0, enemy.health-damage);
+            //Log a resulting message to the console so we know that it worked.
+            console.log(
+                playerInfo.name + " attacked " + enemy.name + " for " + damage + ". " + enemy.name + " now has " + enemy.health + " health remaining."
+            );
+            //check enemy's health
+            if (enemy.health <= 0) {
+                window.alert(enemy.name + " has died!");
+                playerInfo.money = playerInfo.money + 20;
+                break;
+            } else {
+                window.alert(enemy.name + " still has " + enemy.health + " health left.");
+            }
+            var damage = randomNumber(enemy.attack-10, enemy.attack);
+            //Subtract the value of 'enemy.attack' from the value of 'playerInfo.health' and that  result to update the value in the 'playerInfo.health' variable.
+            playerInfo.health = Math.max(0, playerInfo.health - damage);    
+            //Log a resulting message to the console so we know that it worked.
+            console.log(
+                enemy.name + " attacked " + playerInfo.name + " for " + damage + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
+            );
+            //check player's health
+            if (playerInfo.health <= 0) {
+                window.alert(playerInfo.name + " has died!");
+                break;
+            }
+            else {
+                window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+            }
+        } else {
+            var damage = randomNumber(enemy.attack-10, enemy.attack);
+            //Subtract the value of 'enemy.attack' from the value of 'playerInfo.health' and that  result to update the value in the 'playerInfo.health' variable.
+            playerInfo.health = Math.max(0, playerInfo.health - damage);    
+            //Log a resulting message to the console so we know that it worked.
+            console.log(
+                enemy.name + " attacked " + playerInfo.name + " for " + damage + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
+            );
+            //check player's health
+            if (playerInfo.health <= 0) {
+                window.alert(playerInfo.name + " has died!");
+                break;
+            } else {
+                var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
+                //If the player chooses to fight, then fight
+                //Subtract the value of 'playerInfo.attack' from the value of 'enemy.health' and that  result to update the value in the 'enemy.health' variable.
+                enemy.health = Math.max(0, enemy.health-damage);
+                //Log a resulting message to the console so we know that it worked.
+                console.log(
+                    playerInfo.name + " attacked " + enemy.name + " for " + damage + ". " + enemy.name + " now has " + enemy.health + " health remaining."
+                );
+                //check enemy's health
+                if (enemy.health <= 0) {
+                    window.alert(enemy.name + " has died!");
+                    playerInfo.money = playerInfo.money + 20;
+                    break;
+                }
+            }
         }
-        else {
-            window.alert(enemy.name + " still has " + enemy.health + " health left.");
-        }
-        var damage = randomNumber(enemy.attack-10, enemy.attack);
-        //Subtract the value of 'enemy.attack' from the value of 'playerInfo.health' and that  result to update the value in the 'playerInfo.health' variable.
-        playerInfo.health = Math.max(0, playerInfo.health - damage);    
-        //Log a resulting message to the console so we know that it worked.
-        console.log(
-            enemy.name + " attacked " + playerInfo.name + " for " + damage + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
-        );
-        //check player's health
-        if (playerInfo.health <= 0) {
-            window.alert(playerInfo.name + " has died!");
-            break;
-        }
-        else {
-            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
-        }
+        isPlayerTurn = !isPlayerTurn;
     }
 };
 
